@@ -1,0 +1,90 @@
+/*
+You are given R red marbles and B blue marbles. Your task is to arrange the R + B marbles in a line such that certain restrictions are satisfied (see below). You print all possible arrangements under the given restrictions, and the total count of arrangements possible. 
+Part 1 
+In this part, the restriction is that no two red marbles may be placed consecutively. Write a single recursive function to print the arrangements and return the count of possibilities. Do not use any global or static variables. Place the available marbles one by one in an array of size R + B. When u red and v blue marbles are placed, find out the options (red and/or blue) at the (u + v + 1)-st position. For each available option, recursively compute the acceptable configurations with u + v + 1 marbles placed in the array. 
+
+Part 2
+In this part, two red marbles may appear in consecutive positions, but three or more red marbles are not allowed to come consecutively. Write a second recursive function following the same line of programming logic as in Part 1.
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+void comp1(int r,int b,string s,int &c)
+{
+	if(!r && !b)
+	{
+		cout<<s<<" ";
+		c++;
+		return;
+	}
+	if(r==0)
+	{
+		comp1(0,b-1,s+"b",c);
+	}
+	if(b==0)
+	{
+		if(s[s.length()-1]!='r')
+			comp1(r-1,b,s+"r",c);
+		else
+			return;
+	}
+	else if(r && b)
+	{
+		if(s[s.length()-1]!='r')
+			comp1(r-1,b,s+"r",c);
+		comp1(r,b-1,s+"b",c);
+	}
+}
+void comp2(int r,int b,string s,int &c)
+{
+	if(!r && !b)
+	{
+		cout<<s<<" ";
+		c++;
+		return;
+	}
+	if(r==0)
+	{
+		comp2(0,b-1,s+"b",c);
+	}
+	if(b==0)
+	{
+		if(!(s[s.length()-1]=='r'&&s[s.length()-2]=='r'))
+			comp2(r-1,b,s+"r",c);
+		else
+			return;
+	}
+	else if(r && b)
+	{
+		if(!(s[s.length()-1]=='r'&&s[s.length()-2]=='r'))
+			comp2(r-1,b,s+"r",c);
+		comp2(r,b-1,s+"b",c);
+	}
+}
+int main()
+{
+int r,b,c=0;
+cout<<"Enter number of red marbles (R) :";
+cin>>r;
+cout<<"Enter number of blue marbles (B) :";
+cin>>b;
+string s="";
+cout<<"Part 1\n";
+comp1(r,b,s,c);
+cout<<"\nTotal number of possibilities is "<<c<<"\n";
+c=0;
+cout<<"Part 2\n";
+comp2(r,b,s,c);
+cout<<"\nTotal number of possibilities is "<<c<<"\n";
+return 0;
+}
+
+Sample Output:
+Enter number of red marbles (R) :2
+Enter number of blue marbles (B) :4
+Part 1
+rbrbbb rbbrbb rbbbrb rbbbbr brbrbb brbbrb brbbbr bbrbrb bbrbbr bbbrbr
+Total number of possibilities is 10
+Part 2
+rrbbbb rbrbbb rbbrbb rbbbrb rbbbbr brrbbb brbrbb brbbrb brbbbr bbrrbb bbrbrb bbrbbr bbbrrb bbbrbr bbbbrr
+Total number of possibilities is 15

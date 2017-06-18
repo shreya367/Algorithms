@@ -1,0 +1,69 @@
+//Graph Coloring Problem
+
+#include<bits/stdc++.h>
+using namespace std;
+int x[100];
+int G[100][100];
+int total=0;
+bool nextColor(int k,int color){
+	for(int i=0;i<k;i++){
+		if(G[i][k]!=0&&x[i]==color)
+		 return false;
+	}
+	return true;
+}
+void mcolor(int k,int n,int m){
+	if(k==n){
+		for(int i=0;i<n;i++)
+		 cout<<x[i]<<" ";
+		cout<<endl;
+		total++;
+	}
+	else{
+	for(int i=0;i<m;i++){
+		if(nextColor(k,i)){
+			x[k]=i;
+			mcolor(k+1,n,m);
+		}
+	}
+   }
+}
+int main(){
+	int m,n;
+	cout<<"Enter no of vertices and no of colors available:";
+	cin>>n>>m;
+    G[0][1]=1;G[1][0]=1;
+    G[1][2]=1;G[2][1]=1;
+    G[2][3]=1;G[3][2]=1;
+    G[3][0]=1;G[0][3]=1;
+	mcolor(0,n,m);
+	cout<<"Total possible solutions:"<<total<<endl;
+	return 0;
+}
+
+
+
+
+
+Output:
+
+Enter no of vertices and no of colors available:4 3
+0 1 0 1
+0 1 0 2
+0 1 2 1
+0 2 0 1
+0 2 0 2
+0 2 1 2
+1 0 1 0
+1 0 1 2
+1 0 2 0
+1 2 0 2
+1 2 1 0
+1 2 1 2
+2 0 1 0
+2 0 2 0
+2 0 2 1
+2 1 0 1
+2 1 2 0
+2 1 2 1
+Total possible solutions:18

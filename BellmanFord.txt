@@ -1,0 +1,71 @@
+/*
+Bellman Ford Algorithm
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+int L[10][10];
+int lcs( string X, string Y, int m, int n )
+{
+
+	for(int i=0;i<=m;i++){
+		for(int j=0;j<=n;j++){
+			if(i==0 || j==0)
+				L[i][j]=0;
+			else if(X[i-1]==Y[j-1])
+				L[i][j]=L[i-1][j-1]+1;
+			else
+				L[i][j]=max(L[i-1][j],L[i][j-1]);
+		}
+	}
+return L[m][n];
+}
+
+set<string> findlcs(string X, string Y, int m, int n){
+	set<string> s;
+	if(m==0 || n==0){
+		s.insert("");
+		return s;
+	}
+	if(X[m-1]==Y[n-1]){
+		set<string> temp ;
+		temp = findlcs(X,Y,m-1,n-1);
+		set<string>:: iterator it;
+		it = temp.begin();
+		while(it!=temp.end()){
+			s.insert(*it+X[m-1]);it++;
+		}
+	}
+	else{
+		if(L[m-1][n]>=L[m][n-1]){
+			s = findlcs(X,Y,m-1,n);
+		}
+		if(L[m][n-1]>=L[m-1][n]){
+			set<string> tmp = findlcs(X,Y,m,n-1);
+			s.insert(tmp.begin(),tmp.end());
+		}
+
+	}
+return s;
+}
+int main(){
+	string X="abcbdab",Y="bdcaba";
+	int m = X.length();
+	int n = Y.length();
+	int lcsLen = lcs(X,Y,m,n);
+	cout<<"length :"<<lcsLen<<endl;
+	set<string> slcs = findlcs(X,Y,m,n);
+	set<string>:: iterator it;
+	it = slcs.begin();
+	while(it != slcs.end()){
+		cout<<*it<<endl;
+		it++;
+	}
+return 0;
+}
+
+OUTPUT:
+length :4
+bcab
+bcba
+bdab

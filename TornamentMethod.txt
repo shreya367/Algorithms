@@ -1,0 +1,107 @@
+/*
+Find the Second minimum element from an array of elements using minimum comparisons by tournament method.
+*/
+
+#include <bits/stdc++.h>
+using namespace std;
+struct Node
+{
+    intidx;
+    Node *left, *right;
+};
+ Node *createNode(intidx)
+{
+    Node *t = new Node;
+    t->left = t->right = NULL;
+    t->idx = idx;
+    return t;
+}
+ 
+void traverseHeight(Node *root, intarr[], int&res)
+{
+    if (root == NULL || (root->left == NULL &&
+                         root->right == NULL))
+        return;
+     if (res >arr[root->left->idx] &&
+       root->left->idx != root->idx)
+    {
+        res = arr[root->left->idx];
+        traverseHeight(root->right, arr, res);
+    }
+     else if (res >arr[root->right->idx] &&
+             root->right->idx != root->idx)
+    {
+        res = arr[root->right->idx];
+        traverseHeight(root->left, arr, res);
+    }
+}
+ 
+void findSecondMin(intarr[], int n)
+{
+    list<Node *> li;
+    Node *root = NULL;
+    for (inti = 0; i< n; i += 2)
+    {
+        Node *t1 = createNode(i);
+        Node *t2 = NULL;
+        if (i + 1 < n)
+        {
+            t2 = createNode(i + 1);
+             root = (arr[i] <arr[i + 1])? createNode(i) :
+                                       createNode(i + 1);
+ 
+            root->left = t1;
+            root->right = t2;
+             li.push_back(root);
+        }
+        else
+            li.push_back(t1);
+    }
+ 
+    intlsize = li.size();
+     while (lsize != 1)
+    {
+        int last = (lsize& 1)? (lsize - 2) : (lsize - 1);
+
+        for (inti = 0; i< last; i += 2)
+        {
+            Node *f1 = li.front();
+            li.pop_front();
+ 
+            Node *f2 = li.front();
+            li.pop_front();
+            root = (arr[f1->idx] <arr[f2->idx])?
+                createNode(f1->idx) : createNode(f2->idx);
+ 
+            root->left = f1;
+            root->right = f2;
+             li.push_back(root);
+        }
+        if (lsize& 1)
+        {
+            li.push_back(li.front());
+            li.pop_front();
+        }
+        lsize = li.size();
+    }
+ 
+    int res = INT_MAX;
+    traverseHeight(root, arr, res);
+    cout<< "Minimum: " <<arr[root->idx]
+        << ", Second minimum: " << res <<endl;
+}
+ 
+int main()
+{
+intn; cin>>n;
+    intarr[n];
+for(inti=0;i<n;i++)
+cin>>arr[i];
+    findSecondMin(arr, n);
+    return 0;
+}
+
+Output:
+6
+25 44 3 18 5 12
+Minimum: 3, Second minimum: 5

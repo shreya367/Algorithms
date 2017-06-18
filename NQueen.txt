@@ -1,0 +1,91 @@
+/*
+N-Queen Problem
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+int c=0;
+int x[1000];
+bool place(int k,int i){
+	for(int j=0;j<k;j++){
+		if(x[j]==i||abs(j-k)==abs(x[j]-i))
+		 return false;
+	}
+	return true;
+}
+void NQueen(int k,int n){
+	for(int i=0;i<n;i++){
+		if(place(k,i)){
+			x[k]=i;
+			if(k==n-1){
+         
+             int j=0;
+             if(j==0&&((n%2==0&&x[j]<n/2)||(n%2!=0&&x[j]<=n/2))) {
+             	cout<<"Case "<<c+1<<":"<<endl;
+               for(;j<n;j++){
+                for(int l=0;l<n;l++){
+                	if(l==x[j]) cout<<"x";
+                	else cout<<".";
+				}
+				cout<<endl;
+               }
+               cout<<endl;
+               c++;
+              }       
+            }
+			else
+			 NQueen(k+1,n);
+		}
+	}
+}
+int main(){
+	int n;
+	cout<<"Enter value of N:";
+	cin>>n;
+	NQueen(0,n);
+	return 0;
+	
+}
+Output:
+Enter value of N:5
+Case 1:
+x....
+..x..
+....x
+.x...
+...x.
+
+Case 2:
+x....
+...x.
+.x...
+....x
+..x..
+
+Case 3:
+.x...
+...x.
+x....
+..x..
+....x
+
+Case 4:
+.x...
+....x
+..x..
+x....
+...x.
+
+Case 5:
+..x..
+x....
+...x.
+.x...
+....x
+
+Case 6:
+..x..
+....x
+.x...
+...x.
+x....

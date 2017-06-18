@@ -1,0 +1,42 @@
+/*
+Write a program to find out the kth maximum from a set of n distinct numbers where the average case time complexity is ?(n). In this program, use randomized partition method for selecting the pivot element.
+
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+int findPivot(vector<int>v,int n){
+	return v[rand()%n];
+}
+int findMax(vector<int>v,int k,int n){
+	if(v.size()==1) return v[0];
+	 int pivot=findPivot(v,v.size());
+	 	vector<int>v1;
+	vector<int>v2;
+	for(int i=0;i<v.size();i++){
+		if(v[i]<=pivot)
+		 v1.push_back(v[i]);
+		else v2.push_back(v[i]);
+	}
+	if(v1.size()>=n-k+1&&pivot==v1[n-k+1]) return pivot;
+	if(v1.size()>=n-k+1)
+	 return findMax(v1,k,n);
+	else
+	 return findMax(v2,k,n-v1.size());
+}
+int main(){
+	int n,k;
+	cin>>n>>k;
+	vector<int>v(n);
+	for(int i=0;i<n;i++){
+		cin>>v[i];
+	}
+	int kmax=findMax(v,k,n);
+	cout<<"kth max is:"<<kmax<<endl;
+	return 0;
+}
+
+Sample Output:
+Enter n and k:19 9
+57 50 21 13 32 1 9 45 26 17 43 29 17 8 12 35 98 52 78 93
+kth max is:35

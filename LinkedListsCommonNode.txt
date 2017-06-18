@@ -1,0 +1,105 @@
+/*
+You are given two linked lists A and B which may or may not contain a common node. From the first common node (if any) in A and B, the two lists are the same until the end. The two lists in presence of a common node look like the Roman letter Y. 
+*/
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<malloc.h>
+typedef struct node{
+	int data;
+	struct node *next;
+}node;
+node *create(int x,node *head){
+	node *newnode=(node *)malloc(sizeof(node));
+	newnode->data=x;
+	newnode->next=NULL;
+	if(head==NULL){
+		head=newnode;
+		return head;
+	}
+	node *temp=head;
+	while(temp->next!=NULL){
+		temp=temp->next;
+	}
+	temp->next=newnode;
+	return head;
+}
+void display(node *head){
+	node *temp=head;
+	while(temp!=NULL){
+		printf("%d\t",temp->data);
+		temp=temp->next;
+	}
+	printf("\n");
+}
+void show(node *head1,node *head2,int common){
+	printf("Initial part of list a:");
+	node *temp1=head1;
+	while(temp1->data!=common){
+		printf("%d ",temp1->data);
+		temp1=temp1->next;
+	}
+	printf("\nInitial part of list b:");
+	node *temp2=head2;
+	while(temp2->data!=common){
+		printf("%d ",temp2->data);
+		temp2=temp2->next;
+	}
+	printf("\nCommon part:");
+	while(temp2!=NULL){
+		printf("%d ",temp2->data);
+		temp2=temp2->next;
+	}
+	printf("\n");
+}
+main(){
+	node *head1=NULL;
+	node *head2=NULL;
+	int n,c=0,common=0;
+	printf("Enter n:");
+	scanf("%d",&n);
+	while(n){
+		int x=rand()%300;
+		if(c==1){
+			head1=create(x,head1);
+			head2=create(x,head2);
+			n--;
+			continue;
+		}
+		if(x>150&&c==0){
+			head1=create(x,head1);
+			head2=create(x,head2);
+			n--;
+			c=1;
+			common=x;
+			continue;
+		}
+		int y=rand()%100;
+		if(y<=50)
+		 head1=create(x,head1);
+		else
+		 head2=create(x,head2);
+		n--;
+	}
+	printf("+++Part a\n\n");
+	printf("List a:");
+	display(head1);
+	printf("List b:");
+	display(head2);
+	printf("+++Part b\n\n");
+	show(head1,head2,common);
+}
+
+Sample Output:
+Enter n:15
++++Part a
+
+List a:34       269     124     78      258     262     164     5       245     181     27      61      191     295
+
+List b:41       269     124     78      258     262     164     5       245     181     27      61      191     295
+
++++Part b
+
+Initial part of list a:34
+Initial part of list b:41
+Common part:269 124 78 258 262 164 5 245 181 27 61 191 295

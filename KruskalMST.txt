@@ -1,0 +1,67 @@
+/*
+Kruskal's minimum spanning tree
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+int find(int par[],int x){
+	if(par[x]==-1)
+	 return x;
+	else{
+	  int ans= find(par,par[x]);
+	  return ans;
+     }
+}
+void Union(int par[],int u,int v){
+	int a=find(par,u);
+	int b=find(par,v);
+	par[a]=b;
+}
+int main(){
+	int n,e,cost,i,j,mincost=0;
+	cout<<"Enter number of vertices and edges:";
+	cin>>n>>e;
+	vector< pair<int,pair<int,int> > >v;
+	cout<<"Enter costs:\n";
+	while(e){
+		cin>>i>>j>>cost;
+		v.push_back(make_pair(cost,make_pair(i,j)));
+		e--;
+	}
+    sort(v.begin(),v.end());
+	int par[n];
+	for(i=0;i<n;i++)
+	 par[i]=-1;
+	i=0;int a=0;int t[n-1][2];
+	while(i<n-1&&a<v.size()){
+		int u=v[a].second.first;
+		int w=v[a].second.second;
+		if(find(par,u)!=find(par,w)){
+			mincost+=v[a].first;
+			t[i][0]=u;
+			t[i][1]=w;
+			Union(par,u,w);
+			i++;
+		}
+		a++;
+	}
+	if(i!=n-1)
+	 cout<<"No spanning tree possible\n";
+	else
+	 cout<<"Min cost:"<<mincost<<endl;
+	 return 0;
+}
+
+Output:
+Enter number of vertices and edges:7 9
+Enter costs:
+0 1 28
+1 2 16
+2 3 12
+3 4 22
+4 5 25
+5 0 10
+1 6 14
+6 4 24
+6 3 18
+Min cost:99

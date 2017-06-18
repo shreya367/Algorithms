@@ -1,0 +1,72 @@
+/*
+Find all Longest Common Subsequences in two strings
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+#define sz size()
+#define N 1000
+#define max(a,b) a>b?a:b
+#define remax(a,b) a=max(a,b)
+int l[N][N],n,m;
+string a,b;
+set<string>vs;
+void lcs(){
+	int i,j;
+	for(i=1;i<=n;i++){
+		for(int j=1;j<=m;j++){
+			if(a[i-1]==b[j-1]){
+				l[i][j]=l[i-1][j-1]+1;
+				remax(l[i][j],l[i-1][j]);
+				remax(l[i][j],l[i][j-1]);
+			}
+			else{
+				remax(l[i][j],l[i-1][j]);
+				remax(l[i][j],l[i][j-1]);
+			}
+		}
+	}
+}
+void storelcs(string s,int i,int j){
+	if(l[i][j]==0){
+		vs.insert(s);
+		return;
+	}
+	if(l[i][j-1]==l[i][j]){
+		storelcs(s,i,j-1);
+	}
+	if(l[i-1][j]==l[i][j]){
+		storelcs(s,i-1,j);
+	}
+	if((l[i-1][j-1]+1==l[i][j]&&(l[i-1][j]!=l[i][j])&&(l[i][j-1]!=l[i][j]))){
+		s=a[i-1]+s;
+		storelcs(s,i-1,j-1);
+	}
+}
+int main(){
+	int i,j;
+	cout<<"Enter first string:";
+	cin>>a;
+	cout<<"Enter second string:";
+	cin>>b;
+	n=a.length();
+	m=b.length();
+	lcs();
+	cout<<"length of lcs:"<<l[n][m]<<endl;
+	string x="";
+	storelcs(x,n,m);
+	cout<<"No of lcs are "<<vs.sz<<endl;
+	set<string>::iterator it;
+	for(it=vs.begin();it!=vs.end();it++)
+	 cout<<*it<<" ";
+	cout<<endl;
+	return 0;
+}
+Output:
+Enter first string:ABCBDAB
+Enter second string:BDCABA
+length of lcs:4
+No of lcs are 3
+BCAB BCBA BDAB
+
+

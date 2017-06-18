@@ -1,0 +1,52 @@
+/*
+Job Sequencing Problem
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+#define pb push_back
+#define mp make_pair
+int main(){
+	int n;
+	cout<<"Enter number of jobs:";
+	cin>>n;
+	vector<pair<int,pair<char,int> > >v;
+	cout<<"Enter jobs deadlines and profits:\n";
+	for(int i=0;i<n;i++){
+		int pro,dl;
+		char job;
+		cin>>job>>dl>>pro;
+		v.pb(mp(pro,mp(job,dl)));
+	}
+	sort(v.begin(),v.end());
+	int a[n];char c[n];
+	for(int i=0;i<n;i++){
+	 a[i]=INT_MIN;
+	 c[i]=NULL;
+   }
+	for(int i=n-1;i>=0;i--){
+		int j=v[i].second.second-1;
+		for(int k=j;k>=0;k--){
+			if(a[k]<v[i].first){
+				a[k]=v[i].first;
+				c[k]=v[i].second.first;
+				break;
+			}
+		}
+	}
+	for(int i=0;i<n;i++){
+		if(c[i]!=NULL)
+		cout<<c[i]<<" ";
+	}
+	cout<<endl;
+	return 0;
+}
+Output:
+Enter number of jobs:5
+Enter jobs deadlines and profits:
+a 2 100
+b 1 19
+c 2 27
+d 1 25
+e 3 15
+c a e

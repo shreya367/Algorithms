@@ -1,0 +1,102 @@
+/*
+You are given an nXn board. Your task is to place m coins on the board such that no two of the coins
+go to the same cell or to two adjacent cells. Two cells are called adjacent if their boundaries share an
+edge. Two cells with boundaries sharing only a corner will not be called adjacent. Write a program that
+prints all possible arrangements of coins in the board. Your program must not use any global or
+static variables.
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+set<string> sts;
+set<string> ::iterator it;
+void print(string s[],int n){
+string st="";
+for(int i=0;i<n;i++){
+st+=s[i];
+sts.insert(st);
+}
+void comp(string s[],int n,int k,int l)
+{
+int i,j,p,q,kk,ll,id;
+string st[n];
+if(l==0){
+print(s,n);
+return;
+}
+if(k==n*n){
+return;
+}
+else{
+for(kk=k;kk<n*n;kk++){
+i=kk/n;
+j=kk%n;
+ll=l;
+p=max(0,i-1);
+q=max(0,j-1);
+for(id=0;id<n;id++)
+ st[id]=s[id];
+if(st[i][q]=='.' && st[p][j]=='.'){
+st[i][j]='x';
+ll=ll-1;
+}
+comp(st,n,kk+1,ll);
+}
+}
+}
+int main()
+{
+int n,i,m,j,k;
+cout<<"Enter N\n";
+cin>>n;
+cout<<"Enter Number Of Coins\n";
+cin>>m;
+string st[n],s="";
+for(i=0;i<n;i++)
+s+='.';
+for(i=0;i<n;i++)
+st[i]=s;
+comp(st,n,0,m);
+k=0;
+for(it=sts.begin();it!=sts.end();it++){
+s=*it;
+cout<<"Output "<<++k<<"\n";
+for(m=i=0;i<n;i++){
+for(j=0;j<n;j++){
+cout<<s[m++];
+}
+cout<<"\n";
+}
+}
+return 0;
+}
+
+Sample Output:
+Enter N
+3
+Enter Number Of Coins
+4
+Output 1
+..x
+.x.
+x.x
+Output 2
+.x.
+x.x
+.x.
+Output 3
+x..
+.x.
+x.x
+Output 4
+x.x
+...
+x.x
+Output 5
+x.x
+.x.
+..x
+Output 6
+x.x
+.x.
+x..

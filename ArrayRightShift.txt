@@ -1,0 +1,50 @@
+/*
+You are given an array A of n integers. You are also given an integer s in the range 1 = s = n–1. Your task is to right rotate (cyclically right shift) the array A by s cells. Write a program to solve this problem. Your program must not use any extra array (other than that needed to store A itself). Of course, if you right shift A by one cell for a total of s times, you have achieved your goal. However, this strategy calls for a total effort of roughly proportional to ns operations, which may be large unless s is small. Your program should run in time independent of s, that is, the number of operations to be performed by your program should be roughly proportional to n only.
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+int gcd(int a,int b){
+	if(b==0)
+	 return a;
+	else 
+	 return gcd(b,a%b);
+}
+int main(){
+	int n,s,t;
+	cout<<"Enter n and s\n";
+	cin>>n>>s;
+	int y=gcd(n,s);
+	int a[n];
+	cout<<"Array is:\n";
+	for(int i=0;i<n;i++){
+		a[i]=i;
+		cout<<a[i]<<"\t";
+	}
+	cout<<endl;
+	for(int k=0;k<y;k++){
+		int i=k;
+		t=a[k];
+		while(i<n){
+			int x=a[(i+s)%n];
+			if(x==t)
+			 break;
+			a[(i+s)%n]=t;
+			i=(i+s)%n;
+			t=x;
+		}
+	}
+	cout<<"Required array is:\n";
+	for(int j=0;j<n;j++){
+		cout<<a[j]<<"\t";
+	}
+	cout<<endl;
+	return 0;
+}
+Sample output:
+Enter n and s
+15 6
+Array is:
+0       1       2       3       4       5       6       7       8       9       10      11      12      13      14
+Required array is:
+9       10      11      12      13      14      0       1       2       3       4       5       6       7       8

@@ -1,0 +1,39 @@
+/*
+. You are given an array A[ ] of n positive integers, and a target sum t (again a positive integer). Your task is to find a non-empty sub-array A[i...j] such that t = A[i] + A[i+1] + ... + A[j], or report that no such sub-array exists.
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+	int n,t;
+	cout<<"Enter n and t\n";
+	cin>>n>>t;
+	cout<<"Array input\n";
+	int a[n];
+	for(int i=0;i<n;i++){
+		cin>>a[i];
+	}
+	for(int i=0;i<n-1;i++){
+		int sum=a[i];
+		for(int j=i+1;j<n;j++){
+			sum+=a[j];
+			if(sum==t){
+				cout<<"+++Subarray found\n"<<t<<"="<<a[i];
+				for(int k=i+1;k<=j;k++){
+					cout<<"+"<<a[k];
+				}
+				cout<<endl;
+				return 0;
+			}
+		}
+	}
+	cout<<"No such subarray found\n";
+	return 0;
+}
+Sample Output:
+Enter n and t
+20 50
+Array input
+7 4 2 7 7 4 1 2 6 5 4 7 9 3 7 1 6 6 5 8
++++Subarray found
+50=2+6+5+4+7+9+3+7+1+6
